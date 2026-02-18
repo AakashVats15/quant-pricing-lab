@@ -24,12 +24,22 @@ class MonteCarloEngine:
         self.r = float(r)
         self.vr = vr
 
-    def simulate(
-        self,
-        n_paths: int,
-        n_steps: int,
-        T: float,
-    ) -> np.ndarray:
+    def simulate(self, n_paths: int, n_steps: int, T: float) -> np.ndarray:
+        if self.vr is not None and self.vr.__class__.__name__ == "Antithetic":
+            half = n_paths // 2
+
+            Z = np.random.normal(size=(half, n_steps))
+            Z_anti = -Z
+
+            paths_plus = self.model.simulate_paths(
+                n_paths=half, n_steps=n_steps, T=T, Z=Z
+            )
+            paths_minus = self.model.simulate_paths(
+                n_paths=half, n_steps=n_steps, T=T, Z=Z_anti
+            )
+
+            return np.vstack([paths_plus, paths_minus])
+
         return self.model.simulate_paths(n_paths=n_paths, n_steps=n_steps, T=T)
 
     def price(
