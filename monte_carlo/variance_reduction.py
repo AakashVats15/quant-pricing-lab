@@ -18,23 +18,26 @@ class ControlVariate:
         self.r = float(r)
         self.sigma = float(sigma)
         self.T = float(T)
-        self.option_type = option_type
+        self.option_type = option_type.lower()
 
-        if option_type == "call":
-            self.bs_price = bs_call(S0, K, r, sigma, T)
-        else:
-            self.bs_price = bs_put(S0, K, r, sigma, T)
+        # Known expectation of S_T under risk-neutral measure
+        self.EX = self.S0 * np.exp(self.r * self.T)
 
     def apply(self, payoffs: np.ndarray, paths: np.ndarray, **kwargs) -> np.ndarray:
-        terminal = paths[:, -1]
-        if self.option_type == "call":
-            cv = np.maximum(terminal - self.K, 0.0)
-        else:
-            cv = np.maximum(self.K - terminal, 0.0)
+        # Y = discounted payoff (already discounted by engine)
+        Y = payoffs
 
-        cov = np.cov(payoffs, cv)[0, 1]
-        var = np.var(cv)
-        beta = cov / var if var > 0 else 0.0
+        # X = terminal underlying price
+        X = paths[:, -1]
 
-        adj = payoffs - beta * (cv - self.bs_price)
-        return adj
+        # Covariance and variance
+        cov = np.cov(Y, X, ddof=1)[0, 1]
+        var = np.var(X, ddof=1)
+
+        # Regression coefficient
+        b = cov / var if var > 0 else 0.0
+
+        # Control variate estimator
+        Y_cv = Y - b * (X - self.EX)
+
+        return Y_cv
