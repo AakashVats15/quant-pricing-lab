@@ -33,14 +33,14 @@ derivatives-pricing-engine/
 │   ├── convergence.py         # Convergence diagnostics + error plots
 │   └── benchmarks.py          # Runtime + accuracy benchmarking
 │
-├── notebooks/
-│   ├── 01_gbm_simulation.ipynb
-│   ├── 02_black_scholes.ipynb
-│   ├── 03_monte_carlo_pricing.ipynb
-│   ├── 04_variance_reduction.ipynb
-│   ├── 05_greeks.ipynb
-│   ├── 06_implied_vol.ipynb
-│   └── 07_asian_options.ipynb
+├── scripts/
+│   ├── gbm_simulation.py
+│   ├── black_scholes_demo.py
+│   ├── monte_carlo_pricing.py
+│   ├── variance_reduction_demo.py
+│   ├── greeks_demo.py
+│   ├── implied_vol_demo.py
+│   └── asian_options_demo.py
 │
 ├── tests/
 │   ├── test_black_scholes.py
