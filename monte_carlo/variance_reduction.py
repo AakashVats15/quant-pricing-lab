@@ -5,11 +5,23 @@ from models.black_scholes import bs_call, bs_put
 
 class Antithetic:
     def apply(self, payoffs: np.ndarray, paths: np.ndarray, **kwargs) -> np.ndarray:
-        n = payoffs.shape[0] // 2
-        p1 = payoffs[:n]
-        p2 = payoffs[n:]
-        return 0.5 * (p1 + p2)
+        """
+        payoffs: shape (n_paths,)
+        paths:   shape (n_paths, n_steps+1)
 
+        Assumes paths were generated in pairs:
+        first half = +Z paths
+        second half = -Z paths
+        """
+
+        n = payoffs.shape[0]
+        half = n // 2
+
+        # Average antithetic pairs
+        y_plus = payoffs[:half]
+        y_minus = payoffs[half:2*half]
+
+        return 0.5 * (y_plus + y_minus)
 
 class ControlVariate:
     def __init__(self, S0: float, K: float, r: float, sigma: float, T: float, option_type: str = "call"):
