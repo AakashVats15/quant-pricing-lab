@@ -1,4 +1,4 @@
-# **Derivatives Pricing Engine**
+# **Quant Derivatives Pricing Engine**
 
 A modular, research‑grade derivatives pricing engine implementing stochastic simulation, analytical models, variance‑reduction, Greeks, implied volatility, and exotic payoffs. Designed for quantitative research teams who value **clarity, extensibility, and reproducibility**.
 
