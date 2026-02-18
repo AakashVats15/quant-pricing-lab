@@ -39,7 +39,7 @@ class MonteCarloEngine:
     ) -> float:
         paths = self.simulate(n_paths=n_paths, n_steps=n_steps, T=T)
         terminal = paths[:, -1]
-        payoffs = self.payoff(terminal)
+        payoffs = self.payoff(paths)
         if self.vr is not None:
             payoffs = self.vr.apply(payoffs=payoffs, paths=paths, T=T, r=self.r)
         disc_payoffs = discounted(payoffs, self.r, T)

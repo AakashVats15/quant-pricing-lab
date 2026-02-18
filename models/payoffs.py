@@ -12,16 +12,18 @@ class EuropeanCall(Payoff):
     def __init__(self, K: float):
         self.K = float(K)
 
-    def __call__(self, S: np.ndarray) -> np.ndarray:
-        return np.maximum(S - self.K, 0.0)
+    def __call__(self, S_paths: np.ndarray) -> np.ndarray:
+        S_T = S_paths[:, -1]
+        return np.maximum(S_T - self.K, 0.0)
 
 
 class EuropeanPut(Payoff):
     def __init__(self, K: float):
         self.K = float(K)
 
-    def __call__(self, S: np.ndarray) -> np.ndarray:
-        return np.maximum(self.K - S, 0.0)
+    def __call__(self, S_paths: np.ndarray) -> np.ndarray:
+        S_T = S_paths[:, -1]
+        return np.maximum(self.K - S_T, 0.0)
 
 
 class AsianArithmeticCall(Payoff):
