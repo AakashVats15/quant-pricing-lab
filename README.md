@@ -99,8 +99,8 @@ derivatives-pricing-engine/
 ## **📦 Installation**
 
 ```bash
-git clone https://github.com/<your-username>/derivatives-pricing-engine.git
-cd derivatives-pricing-engine
+git clone https://github.com/AakashVats15/quant-pricing-lab.git
+cd quant-pricing-lab
 pip install -r requirements.txt
 ```
 
